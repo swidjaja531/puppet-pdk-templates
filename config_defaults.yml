@@ -5,13 +5,39 @@
     '*.erb': 'eol=lf'
     '*.pp': 'eol=lf'
     '*.sh': 'eol=lf'
+.gitignore:
+  required: &ignorepaths
+      - '.*.sw[op]'
+      - '.metadata'
+      - '.yardoc'
+      - '.yardwarns'
+      - '*.iml'
+      - '/.bundle/'
+      - '/.idea/'
+      - '/.vagrant/'
+      - '/coverage/'
+      - '/bin/'
+      - '/doc/'
+      - '/Gemfile.local'
+      - '/Gemfile.lock'
+      - '/junit/'
+      - '/log/'
+      - '/pkg/'
+      - '/spec/fixtures/manifests/'
+      - '/spec/fixtures/modules/'
+      - '/tmp/'
+      - '/vendor/'
+      - '/convert_report.txt'
+      - '/update_report.txt'
+      - '.DS_Store'
+.pdkignore:
+  required: *ignorepaths
 .travis.yml:
   ruby_versions:
     - 2.4.1
-    - 2.1.9
-  bundler_args: --without system_tests
   env:
-    - PUPPET_GEM_VERSION="~> 4.0" CHECK=spec
+    - PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
+  bundler_args: --without system_tests
   docker_sets:
   docker_defaults:
     # values will replace @@SET@@ with the docker_sets' value
@@ -25,10 +51,14 @@
     - env: CHECK=rubocop
     - env: CHECK="syntax lint"
     - env: CHECK=metadata_lint
+    - env: CHECK=release_checks
+    - env: CHECK=spec
+    - env: PUPPET_GEM_VERSION="~> 4.0" CHECK=spec
+      rvm:  2.1.9
+.yardopts:
+  markup: markdown
 appveyor.yml:
   appveyor_bundle_install: "bundle install --jobs 4 --retry 2 --without system_tests"
-  environment:
-    PUPPET_GEM_VERSION: "~> 4.0"
   matrix:
     - RUBY_VERSION: 24-x64
       CHECK: "syntax lint"
@@ -36,9 +66,17 @@ appveyor.yml:
       CHECK: metadata_lint
     - RUBY_VERSION: 24-x64
       CHECK: rubocop
-    - RUBY_VERSION: 24-x64
+    - PUPPET_GEM_VERSION: ~> 4.0
+      RUBY_VERSION: 21
       CHECK: spec
-    - RUBY_VERSION: 21-x64
+    - PUPPET_GEM_VERSION: ~> 4.0
+      RUBY_VERSION: 21-x64
+      CHECK: spec
+    - PUPPET_GEM_VERSION: ~> 5.0
+      RUBY_VERSION: 24
+      CHECK: spec
+    - PUPPET_GEM_VERSION: ~> 5.0
+      RUBY_VERSION: 24-x64
       CHECK: spec
   test_script:
     - bundle exec rake %CHECK%
@@ -401,6 +439,7 @@ Rakefile:
         RSpec/LetSetup:
         RSpec/MessageChain:
         RSpec/MessageSpies:
+          EnforcedStyle: receive
         RSpec/MultipleDescribes:
         RSpec/NamedSubject:
         RSpec/OverwritingSetup:
@@ -472,6 +511,9 @@ Gemfile:
       - gem: json
         version: '= 1.8.1'
         condition: "Gem::Version.new(RUBY_VERSION.dup) == Gem::Version.new('2.1.9')"
+      - gem: json
+        version: '<= 2.0.4'
+        condition: "Gem::Version.new(RUBY_VERSION.dup) == Gem::Version.new('2.4.4')"
       - gem: 'puppet-module-posix-default-r#{minor_version}'
         platforms: ruby
       - gem: 'puppet-module-posix-dev-r#{minor_version}'
@@ -486,6 +528,11 @@ Gemfile:
           - mswin
           - mingw
           - x64_mingw
+      - gem: puppet-blacksmith
+        version: '~> 3.4'
+        require: false
+        platforms:
+          - ruby
     # ':system_tests':
     #   - gem: 'puppet-module-posix-system-r#{minor_version}'
     #     platforms: ruby
@@ -513,3 +560,10 @@ Gemfile:
     PUPPET_GEM_VERSION: "~> 4.0"
     CHECK: spec
   bundler_args: --without system_tests
+spec/default_facts.yml:
+  concat_basedir: "/tmp"
+  ipaddress: "172.16.254.254"
+  is_pe: false
+  macaddress: "AA:AA:AA:AA:AA:AA"
+spec/spec_helper.rb:
+  strict_level: ":warning"

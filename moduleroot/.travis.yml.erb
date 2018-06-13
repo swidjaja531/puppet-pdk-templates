@@ -19,7 +19,7 @@ addons:
 <% end -%>
 before_install:
   - bundle -v
-  - rm Gemfile.lock || true
+  - rm -f Gemfile.lock
   - gem update --system
   - gem update bundler
   - gem --version
@@ -64,6 +64,11 @@ branches:
   only:
     - master
     - /^v\d/
+<% if @configs['branches'] -%>
+<%   @configs['branches'].each do |branch| -%>
+    - <%= branch %>
+<%   end -%>
+<% end -%>
 notifications:
   email: false
 deploy:
