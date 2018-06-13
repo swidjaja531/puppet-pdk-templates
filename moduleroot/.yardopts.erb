@@ -1,8 +1,2 @@
-<% if !@configs.nil? && @configs.has_key?('markup') -%>
-<%= "--markup #{@configs['markup']}" %>
-<% end -%>
-<% if !@configs.nil? && @configs.has_key?('optional') -%>
-<%   @configs['optional'].each do |arg| -%>
-<%= arg %>
-<%   end -%>
-<% end -%>
+--markup markdown
+--output-dir docs/

@@ -1,3 +1,26 @@
-<% (@configs['required'] + (@configs['paths'] || [])).uniq.each do |path| -%>
+.*.sw[op]
+.metadata
+.yardoc
+.yardwarns
+*.iml
+/.bundle/
+/.idea/
+/.vagrant/
+/coverage/
+/bin/
+/doc/
+/Gemfile.local
+/Gemfile.lock
+/junit/
+/log/
+/log/
+/pkg/
+/spec/fixtures/manifests/
+/spec/fixtures/modules/
+/tmp/
+/vendor/
+/convert_report.txt
+
+<% (@configs['paths'] || []).each do |path| -%>
 <%= path %>
 <% end -%>
