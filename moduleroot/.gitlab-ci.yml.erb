@@ -39,6 +39,10 @@ cache:
 before_script:
   - bundle -v
   - rm Gemfile.lock || true
+  - 'touch ~/.gemrc && printf ":ssl_verify_mode: 0\nsources:\n - http://rubygems.org\n" > ~/.gemrc'
+  - export http_proxy=http://172.17.0.1:3128
+  - export https_proxy=http://172.17.0.1:3128
+  - export GEM_SOURCE=http://rubygems.org
   - gem update --system
   - gem --version
   - bundle -v
