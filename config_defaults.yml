@@ -283,7 +283,6 @@ Rakefile:
     Style/EvenOdd:
     Style/FormatString:
     Style/FrozenStringLiteralComment:
-    Style/HashSyntax:
     Style/InfiniteLoop:
     Style/InverseMethods:
     Style/Lambda:
@@ -566,9 +565,9 @@ Gemfile:
         puppet_version: '~> 5.5'
     # beaker: true
 spec/default_facts.yml:
-  concat_basedir: "/tmp"
   ipaddress: "172.16.254.254"
   is_pe: false
-  macaddress: "AA:AA:AA:AA:AA:AA"
 spec/spec_helper.rb:
   strict_level: ":warning"
+  mock_with: ":rspec"
+  hiera_config: 'spec/fixtures/hiera.yaml'
