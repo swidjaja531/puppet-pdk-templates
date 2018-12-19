@@ -43,7 +43,7 @@ before_script:
   - export http_proxy=http://172.17.0.1:3128
   - export https_proxy=http://172.17.0.1:3128
   - export GEM_SOURCE=http://rubygems.org
-  - gem update --system
+  - gem update --system 2.7.8
   - gem --version
   - bundle -v
   - bundle install <%= configs['bundler_args'] %>
