@@ -40,6 +40,7 @@ def gem_spec(gem, max_len)
 end
 -%>
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+gem 'rspec-puppet-utils'
 
 def location_for(place_or_version, fake_version = nil)
   if place_or_version =~ %r{\A(git[:@][^#]*)#(.*)}
