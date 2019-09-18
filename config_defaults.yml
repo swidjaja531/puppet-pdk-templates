@@ -572,10 +572,6 @@ Gemfile:
         - 'vendor/bundle'
     bundler_args: '--without system_tests --path vendor/bundle --jobs $(nproc)'
     ruby_versions:
-      '2.1.9':
-        checks:
-          - parallel_spec
-        puppet_version: '~> 4.0'
       '2.4.4':
         checks:
           - 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
