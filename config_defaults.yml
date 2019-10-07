@@ -506,9 +506,6 @@ Gemfile:
       - gem: public_suffix
         version: '< 3.1.0'
         condition: "Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.3')"
-      - gem: parallel
-        version: '<= 1.13.0'
-        conditi on: "Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.2')"
       - gem: net-ssh
         version: '<= 3.2.0'
         condition: "Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.2.6')"

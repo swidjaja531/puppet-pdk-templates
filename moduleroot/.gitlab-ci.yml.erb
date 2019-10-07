@@ -56,7 +56,7 @@ before_script:
 <%       else -%>
   stage: syntax
 <%       end -%>
-  image: localhost:5000/ruby:<%= ruby_version %>
+  image: l1vnexusp1.ux.hra.nycnet:8082/ruby:<%= ruby_version %>
   script:
     - bundle exec rake <%= check %>
   variables:
